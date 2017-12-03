@@ -14,28 +14,23 @@
     <v-alert outline color="info" icon="info" v-model="alert">
       Нажмите кнопку "Играть аккорд"
     </v-alert>
-    <div>
-        <v-layout row
-            v-for="chord in chords"
-            :key="chord.name"
-            @click="chordChoose(chord.name)"
-            v-bind:class="[(trueVariant === chord.name) && 'success', (falseVariant === chord.name) && 'error']"
-        >
-
-            <v-btn flat dark>{{chord.name}}</v-btn>
-        </v-layout>
-    </div>
+    <answers
+      :answers="chords"
+      :rightAnswer="activeChord"
+      v-on:increment-score="increment('score')"
+      v-on:increment-tries="increment('tries')"
+      v-on:reset-chord="resetChord"
+      v-on:alert-init="alertInit"
+    />
     <v-divider/>
-    <div class="score">
-      <div>
-        <span><b>Правильно {{score}} из {{tries}}</b></span>
-      </div>
-    </div>
+    <score v-bind="{ score, tries }"/>
   </div>
   </v-layout>
 </template>
 
 <script>
+  import Score from '@/components/Score';
+  import Answers from '@/components/Answers';
   import { types, genChord } from '../lib/chords';
   import { pianoSynth, hasLoaded } from '../lib/sampler';
 
@@ -51,7 +46,17 @@
         alert: false,
       };
     },
+    components: { Score, Answers },
     methods: {
+      alertInit() {
+        this.alert = true;
+      },
+      resetChord() {
+        this.activeChord = null;
+      },
+      increment(value) {
+        this[value] += 1;
+      },
       playChord() {
         this.alert = false;
         if (this.activeChord === null) {
@@ -61,40 +66,6 @@
           pianoSynth.triggerAttackRelease(this.activeChord.sound);
         }
       },
-      chordChoose(name) {
-        if (this.activeChord === null) {
-          this.alert = true;
-          return;
-        }
-        if (name === this.activeChord.name) {
-          this.score += 1;
-          this.showResult(name);
-        } else {
-          this.showResult(this.activeChord.name, name);
-        }
-        this.tries += 1;
-        this.activeChord = null;
-      },
-      showResult(trueVariant, falseVariant = '') {
-        this.trueVariant = trueVariant;
-        this.falseVariant = falseVariant;
-        setTimeout(() => {
-          this.trueVariant = '';
-          this.falseVariant = '';
-        }, 1000);
-      },
     },
   };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" scoped>
-.success
-  background-color: green !important
-
-.error
-  background-color: red
-
-.score
-  margin-top: 1em
-</style>
