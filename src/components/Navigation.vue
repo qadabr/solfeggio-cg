@@ -15,12 +15,12 @@
             <v-list-tile-title>Chords</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile>
+        <v-list-tile to="/progression">
           <v-list-tile-action>
-            <v-icon>settings</v-icon>
+            <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
+            <v-list-tile-title>Progressionn</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
