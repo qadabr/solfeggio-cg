@@ -1,33 +1,38 @@
-const modeFunctions = [
-    {
-        name: 'T',
+import { composeSound } from './chords';
+import { pianoSynth, hasLoaded } from './sampler';
+import { getRandTone, getRandOctave } from './notes'; 
+import Tone from 'tone';
+
+const modeFunctions = {
+    'T': {
+        degree: 0,        
         mode: 'M',
     },
-    {
-        name: 'II',
+    'II': {
+        degree: 2,
         mode: 'm',
     },
-    {
-        name: 'III',
+    'III': {
+        degree: 4,
         mode: 'm',
     },
-    {
-        name: 'S',
+    'S': {
+        degree: 5,
         mode: 'M',
     },
-    {
-        name: 'D',
+    'D': {
+        degree: 7,
         mode: 'M',
     },
-    {
-        name: 'VI',
+    'VI': {
+        degree: 9,
         mode: 'm',
     },
-    {
-        name: 'VII',
+    'VII': {
+        degree: 11,
         mode: 'm',
     },
-];
+};
 
 export const progressions = [
     [ 'T', 'S', 'VI', 'D' ],
@@ -45,6 +50,21 @@ const modeChord = (mode) => {
     return null;
 };
 
-export const composeProgression = (progression, key, octave) => {
+const playFunction = (root, octave, func) => {
+    const intervals = modeChord(func.mode).map(v => v + func.degree);
+    pianoSynth.triggerAttackRelease(composeSound(root, octave, intervals));    
+};
+
+export const playProgression = (progression) => {
+    const root = getRandTone();
+    const octave = getRandOctave(2, 5);
     
+    const pattern = new Tone.Pattern((time, funcName) => {
+        playFunction(root, octave, modeFunctions[funcName]);
+        console.log(funcName);
+    }, progression);
+
+    if (hasLoaded()) {
+        pattern.start(0);
+    }
 };
