@@ -11,6 +11,9 @@
       <v-btn flat dark disabled>Настройки</v-btn>
     </v-layout>
     <v-divider/>
+    <v-alert outline color="info" icon="info" v-model="alert">
+      Нажмите кнопку "Играть аккорд"
+    </v-alert>
     <div>
         <v-layout row
             v-for="chord in chords"
@@ -45,10 +48,12 @@
         activeChord: null,
         trueVariant: '',
         falseVariant: '',
+        alert: false,
       };
     },
     methods: {
       playChord() {
+        this.alert = false;
         if (this.activeChord === null) {
           this.activeChord = genChord();
         }
@@ -58,7 +63,7 @@
       },
       chordChoose(name) {
         if (this.activeChord === null) {
-          alert('Нажмите кнопку "Играть аккорд"');
+          this.alert = true;
           return;
         }
         if (name === this.activeChord.name) {
@@ -73,11 +78,9 @@
       showResult(trueVariant, falseVariant = '') {
         this.trueVariant = trueVariant;
         this.falseVariant = falseVariant;
-        console.log(this.trueVariant, this.falseVariant);
         setTimeout(() => {
           this.trueVariant = '';
           this.falseVariant = '';
-          console.log(this.trueVariant, this.falseVariant);
         }, 1000);
       },
     },
