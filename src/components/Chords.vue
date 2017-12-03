@@ -13,8 +13,9 @@
     <v-divider/>
     <div>
         <v-layout row
-            v-for='chord in chords'
-            v-on:click='chordChoose(chord.name)'
+            v-for="chord in chords"
+            :key="chord.name"
+            @click="chordChoose(chord.name)"
             v-bind:class="[(trueVariant === chord.name) && 'success', (falseVariant === chord.name) && 'error']"
         >
 
@@ -85,15 +86,12 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
-.success {
-  background-color: green !important;
-}
+.success
+  background-color: green !important
 
-.error {
-  background-color: red;
-}
+.error
+  background-color: red
 
-.score {
-  margin-top: 1em;
-}
+.score
+  margin-top: 1em
 </style>

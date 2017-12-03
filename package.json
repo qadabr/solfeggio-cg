@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "mdi": "^2.0.46",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "tone": "^0.11.11",

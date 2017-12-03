@@ -9,7 +9,7 @@
       <v-list dense>
         <v-list-tile to="/chords">
           <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon>mdi-piano</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Chords</v-list-tile-title>
