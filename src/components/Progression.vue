@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center align-center>
     <div class="col-lg-5">
-      
+
       <div>
         <h4>Функции тональности</h4>
         <p>Прослушайте прогрессию и отаадайте функции тональности</p>
@@ -45,21 +45,20 @@ export default {
       };
   },
   methods: {
-      display(progression) {
-        let string = '';
-        progression.forEach(func => {
-            string += func + ' ';
-        });
+    display(progression) {
+      let string = '';
+      progression.forEach(func => {
+          string += func + ' ';
+      });
 
-        return string;
-      },
-      play() {
-        if (this.current === null) {
-          this.current = progressions[Math.floor(Math.random() * progressions.length)];
-        }
-
-        playProgression(this.current);
+      return string;
+    },
+    play() {
+      if (this.current === null) {
+        this.current = progressions[Math.floor(Math.random() * progressions.length)];
       }
+      playProgression(this.current);
+    }
   },
 }
 </script>
