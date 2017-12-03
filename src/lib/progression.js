@@ -66,5 +66,6 @@ export const playProgression = (progression) => {
 
     if (hasLoaded()) {
         pattern.start(0);
+        Tone.Transport.start();
     }
 };
