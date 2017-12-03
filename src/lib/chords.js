@@ -1,41 +1,52 @@
-import * as notes from './notes'
-import { types } from './chordsType'
-import * as sampler from './sampler'
+import { tones, getRandTone, getRandOctave } from './notes';
 
-export const getRandType = function () {
-  return types[Math.floor(Math.random() * types.length)]
-}
+export const types = [
+  {
+    name: 'Мажорное трезвучие',
+    intervals: [0, 4, 7],
+  },
+  {
+    name: 'Минорное трезвучие',
+    intervals: [0, 3, 7],
+  },
+  {
+    name: 'Уменьшённое трезвучие',
+    intervals: [0, 3, 6],
+  },
+  {
+    name: 'Малый мажорный септаккорд',
+    intervals: [0, 4, 7, 10],
+  },
+  {
+    name: 'Малый минорный септаккорд',
+    intervals: [0, 3, 7, 10],
+  },
+  {
+    name: 'Большой мажорный септаккорд',
+    intervals: [0, 4, 7, 11],
+  },
+  {
+    name: 'Большой минорный септаккорд',
+    intervals: [0, 3, 7, 11],
+  },
+];
 
-export class Chord {
-  constructor (root, octave, type) {
-    this.name = type.name
+export const getRandType = () =>
+  types[Math.floor(Math.random() * types.length)];
 
-    let notesArray = []
-    type.intervals.forEach(function (interval) {
-      let index = root + interval
-      let realNote = notes.tones[Math.floor(index) % notes.tones.length]
-      let realOctave = Math.floor(index / notes.tones.length + octave)
+export const composeSound = (root, octave, intervals) =>
+  intervals.map((interval) => {
+    const index = root + interval;
+    const realNote = tones[Math.floor(index) % tones.length];
+    const realOctave = Math.floor((index / tones.length) + octave);
 
-      notesArray.push(realNote + realOctave)
-    }, this)
+    return realNote + realOctave;
+  });
 
-    this.notesArray = notesArray
-    console.log(type.name)
-  }
-
-  attack () {
-    if (sampler.hasLoaded()) {
-      sampler.pianoSynth.triggerAttack(this.notesArray)
-    }
-  }
-
-  release () {
-    if (sampler.hasLoaded()) {
-      sampler.pianoSynth.triggerRelease(this.notesArray)
-    }
-  }
-
-  getName () {
-    return this.name
-  }
-}
+export const genChord = () => {
+  const type = getRandType();
+  return {
+    name: type.name,
+    sound: composeSound(getRandTone(), getRandOctave(2, 5), type.intervals),
+  };
+};

@@ -1,5 +1,7 @@
-import Tone from 'tone'
+import Tone from 'tone';
 
+const voices = 4;
+/* eslint-disable quote-props */
 const piano = {
   'A0': 'A0.[mp3|ogg]',
   'C1': 'C1.[mp3|ogg]',
@@ -30,23 +32,22 @@ const piano = {
   'D#7': 'Ds7.[mp3|ogg]',
   'F#7': 'Fs7.[mp3|ogg]',
   'A7': 'A7.[mp3|ogg]',
-  'C8': 'C8.[mp3|ogg]'
-}
+  'C8': 'C8.[mp3|ogg]',
+};
+/* eslint-enable quote-props */
 
 const pianoConfig = {
-  'release': 1,
-  'baseUrl': './salamander/'
-}
+  release: 1,
+  baseUrl: './salamander/',
+};
 
 export const pianoSynth = new Tone
-  .PolySynth(4, Tone.Sampler, piano, pianoConfig)
-  .toMaster()
+  .PolySynth(voices, Tone.Sampler, piano, pianoConfig)
+  .toMaster();
 
-export const hasLoaded = function () {
-  let loaded = true
-  pianoSynth.voices.forEach(function (voice) {
-    loaded &= voice.loaded
-  }, this)
+export const hasLoaded = () => {
+  const loaded = pianoSynth.voices
+    .filter(voice => Boolean(voice.loaded));
 
-  return loaded
-}
+  return Boolean(loaded.length === voices);
+};
