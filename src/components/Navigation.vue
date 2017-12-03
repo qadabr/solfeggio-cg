@@ -35,9 +35,9 @@
 <script>
 export default {
   data: () => ({
-    drawer: null
+    drawer: null,
   }),
-}
+};
 </script>
 
 
