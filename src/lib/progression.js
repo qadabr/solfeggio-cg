@@ -2,7 +2,7 @@ import Tone from 'tone';
 import tones from './tones';
 import { composeSound } from './chords';
 import { pianoSynth, hasLoaded } from './sampler';
-import { randItem, randNum } from './stuff';
+import { randNum } from './stuff';
 
 const modeFunctions = {
   T: {
