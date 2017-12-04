@@ -27,7 +27,9 @@
 
 <script>
   import Score from '@/components/Score';
-  import { progressions, playProgression } from '../lib/progression';
+  import Tone from 'tone';
+  import { progressions, composePattern } from '../lib/progression';
+  import { hasLoaded } from '../lib/sampler';
   import { randItem } from '../lib/stuff';
 
   export default {
@@ -45,7 +47,13 @@
         this.current = this.current === null
           ? randItem(progressions)
           : this.current;
-        playProgression(this.current);
+
+        if (hasLoaded()) {
+          Tone.Transport.clear();
+          const pattern = composePattern(this.current);
+          pattern.start().stop(this.current.length);
+          Tone.Transport.start();
+        }
       },
     },
   };
