@@ -59,7 +59,7 @@ const playFunction = (root, octave, func) => {
 export const playProgression = (progression) => {
   Tone.Transport.stop();
 
-  const root = randItem(tones);
+  const root = randNum(0, tones.length);
   const octave = randNum(3, 5);
   const pattern = new Tone.Pattern((time, funcName) => {
     playFunction(root, octave, modeFunctions[funcName]);
