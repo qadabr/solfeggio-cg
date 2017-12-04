@@ -11,9 +11,6 @@
         <v-btn flat dark disabled>Настройки</v-btn>
       </v-layout>
       <v-divider/>
-      <v-alert outline color="info" icon="info" v-model="alert">
-        Нажмите кнопку "Играть прогрессию"
-      </v-alert>
       <div>
         <v-layout row
           v-for="p in progressions" :key="p.name"
@@ -31,6 +28,7 @@
 <script>
   import Score from '@/components/Score';
   import { progressions, playProgression } from '../lib/progression';
+  import { randItem } from '../lib/stuff';
 
   export default {
     data() {
@@ -44,9 +42,9 @@
     components: { Score },
     methods: {
       play() {
-        if (this.current === null) {
-          this.current = progressions[Math.floor(Math.random() * progressions.length)];
-        }
+        this.current = this.current === null
+          ? randItem(progressions)
+          : this.current;
         playProgression(this.current);
       },
     },

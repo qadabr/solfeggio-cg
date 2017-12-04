@@ -1,7 +1,8 @@
 import Tone from 'tone';
+import tones from './tones';
 import { composeSound } from './chords';
 import { pianoSynth, hasLoaded } from './sampler';
-import { getRandTone, getRandOctave } from './notes';
+import { randItem, randNum } from './stuff';
 
 const modeFunctions = {
   T: {
@@ -56,14 +57,17 @@ const playFunction = (root, octave, func) => {
 };
 
 export const playProgression = (progression) => {
-  const root = getRandTone();
-  const octave = getRandOctave(2, 5);
+  Tone.Transport.stop();
+
+  const root = randItem(tones);
+  const octave = randNum(3, 5);
   const pattern = new Tone.Pattern((time, funcName) => {
     playFunction(root, octave, modeFunctions[funcName]);
   }, progression);
+  pattern.playbackRate = 0.5;
+  pattern.start(0).stop(progression.length);
+
   if (hasLoaded()) {
-    pattern.playbackRate = 0.5;
-    pattern.start(0).stop(progression.length);
     Tone.Transport.start();
   }
 };

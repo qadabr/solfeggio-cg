@@ -1,4 +1,5 @@
-import { tones, getRandTone, getRandOctave } from './notes';
+import tones from './tones';
+import { randItem, randNum } from './stuff';
 
 export const types = [
   {
@@ -31,9 +32,6 @@ export const types = [
   },
 ];
 
-export const getRandType = () =>
-  types[Math.floor(Math.random() * types.length)];
-
 export const composeSound = (root, octave, intervals) =>
   intervals.map((interval) => {
     const index = root + interval;
@@ -44,9 +42,12 @@ export const composeSound = (root, octave, intervals) =>
   });
 
 export const genChord = () => {
-  const type = getRandType();
+  const type = randItem(types);
+  const root = randNum(0, tones.length);
+  const octave = randNum(3, 5);
+  const sound = composeSound(root, octave, type.intervals);
   return {
     name: type.name,
-    sound: composeSound(getRandTone(), getRandOctave(2, 5), type.intervals),
+    sound,
   };
 };
